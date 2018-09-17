@@ -13,10 +13,6 @@ var gameOfLife = {
         botonClear.addEventListener('click', this.clear)
         var botonStep = document.querySelector("#step_btn");
         botonStep.addEventListener('click', this.step)
-        var botonResetRandom = document.querySelector("#reset_btn");
-        botonResetRandom.addEventListener('click', this.resetRandom);
-        var botonPlay = document.querySelector("#play_btn");
-        botonPlay.addEventListener('click', this.enableAutoPlay);
         //goltable crea la tbody dentro de table#board
 
         // Construye la Tabla HTML
@@ -97,76 +93,27 @@ var gameOfLife = {
             cell.dataset.status='dead';
         })
     },
-    resetRandom: function(){
-        gameOfLife.forEachCell(function(celda){
-            var num = Math.floor(Math.random()* 2) ;
-            if(num === 0){
-                celda.className = 'dead';
-                celda.dataset.status = 'dead';
-            }else{
-                celda.className = 'alive';
-                celda.dataset.status = 'alive';
-            }
-        });
-    },
 
     step: function () {
 
         // Acá es donde querés loopear a través de las celdas
         // en el tablero y determina, basado en tus vecinos,
         // si la celda debe estar viva o muerta en la siguiente
-        // evolución del juego.tbody.children[y+i].children[x+j].className == "alive"
+        // evolución del juego.
 
         // Necesitas:
         // 1. Cuenta vecinos vivos para todas las celdas
         // 2. Sete el siguiente estado de todas las celdas basado en las vecinas vivas
-        var tbody = document.querySelector("tbody");
-        var arregloNextGen = [];
+
         gameOfLife.forEachCell(function(cell){
-            var contador = 0;
-            var [y,x] = cell.id.split('-');
-            y = parseInt(y);
-            x = parseInt(x);
-            //console.log(tbody.children[0].children[0]);
-            console.log('------');
-            for(var i = -1; i < 2; i++){
-                for(var j = -1; j < 2; j++){
-                    if(tbody.children[y + i]){
-                        if(tbody.children[y+i].children[x+j]){
-                            if(tbody.children[y+i].children[x+j].className == "alive"){
-                                contador++;
-                            }
-                        }
-                    }
-                }
-            }
-            if(contador > 0 && tbody.children[y].children[x].className == "alive"){
-                contador--;
-            }
-            var celda = tbody.children[y].children[x];
-            if(celda.dataset.status == "alive"){
-                if(contador > 3 || contador < 2){
-                    arregloNextGen.push(celda);
-                }
-            } else if(celda.dataset.status == "dead" && contador == 3){
-                arregloNextGen.push(celda);
-            }
-        })//FIN Foreach
-        for(var i = 0; i < arregloNextGen.length; i++){
-            if(arregloNextGen[i].dataset.status == "alive"){
-                arregloNextGen[i].dataset.status = "dead";
-                arregloNextGen[i].className = "dead";
-            } else if(arregloNextGen[i].dataset.status == "dead"){
-                    arregloNextGen[i].dataset.status = "alive";
-                    arregloNextGen[i].className = "alive";
-            }
-        }
+                if()
+        })
+
     },
 
     enableAutoPlay: function () {
         // Comienza Auto-Play corriendo la función step
         // automaticamente de forma reptida cada intervalo de tiempo fijo
-        setInterval(gameOfLife.step, 300);
     }
 
 
