@@ -7,14 +7,15 @@ var gameOfLife = {
 
         // crea el elemento <table>
         var goltable = document.createElement("tbody");
+
         var botonClear = document.querySelector("#clear_btn");
-        botonClear.addEventListener('click', this.clear)
+        botonClear.addEventListener('click', this.clear.bind(this))
         var botonStep = document.querySelector("#step_btn");
-        botonStep.addEventListener('click', this.step)
+        botonStep.addEventListener('click', this.step.bind(this))
         var botonResetRandom = document.querySelector("#reset_btn");
-        botonResetRandom.addEventListener('click', this.resetRandom);
+        botonResetRandom.addEventListener('click', this.resetRandom.bind(this));
         var botonPlay = document.querySelector("#play_btn");
-        botonPlay.addEventListener('click', this.enableAutoPlay);
+        botonPlay.addEventListener('click', this.enableAutoPlay.bind(this));
 
         // Construye la Tabla HTML
         var tablehtml = '';
@@ -59,13 +60,13 @@ var gameOfLife = {
     },//FIN setupBoardEvents
 
     clear: function(){
-        gameOfLife.forEachCell(function(cell){
+        this.forEachCell(function(cell){
             cell.className= "dead";
             cell.dataset.status='dead';
         })
     },
     resetRandom: function(){
-        gameOfLife.forEachCell(function(celda){
+        this.forEachCell(function(celda){
             var num = Math.floor(Math.random()* 2) ;
             if(num === 0){
                 celda.className = 'dead';
@@ -80,7 +81,7 @@ var gameOfLife = {
     step: function () {
         var tbody = document.querySelector("tbody");
         var arregloNextGen = [];
-        gameOfLife.forEachCell(function(cell){
+        this.forEachCell(function(cell){
             var contador = 0;
             var [y,x] = cell.id.split('-');
             y = parseInt(y);
@@ -120,9 +121,9 @@ var gameOfLife = {
     },
 
     enableAutoPlay: function () {
-        // Comienza Auto-Play corriendo la función step
-        // automaticamente de forma reptida cada intervalo de tiempo fijo
-        setInterval(gameOfLife.step, 1000);
+        console.log(this.width);
+        console.log(this);
+        setInterval(this.step.bind(this), 100);
     }
 
 
